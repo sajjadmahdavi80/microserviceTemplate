@@ -1,0 +1,11 @@
+services:
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: Services/Catalog/Catalog.Api
+      dockerfile: Dockerfile
+  catalogdb: 
+   image: mongo
+
+volumes:
+  shopping-mongo:

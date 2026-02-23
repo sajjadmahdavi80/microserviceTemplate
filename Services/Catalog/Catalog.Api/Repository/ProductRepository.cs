@@ -21,20 +21,25 @@ public class ProductRepository : IProductRepository
         return result.IsAcknowledged && result.DeletedCount > 0;
     }
 
+    public async Task<Product> GetProduct(string id)
+    {
+        return (await _context.Product.FindAsync(f => f.Id == id)).FirstOrDefault();
+    }
+
     public async Task InsertProduct(Product product)
     {
         await _context.Product.InsertOneAsync(product);
     }
 
-    public Task<IEnumerable<Product>> ProductsList()
+    public async Task<IEnumerable<Product>> ProductsList()
     {
-        throw new NotImplementedException();
+        return (await _context.Product.FindAsync(f => true)).ToList();
     }
 
     public async Task<bool> UpdateProduct(Product product)
     {
-   
-        var result = await _context.Product.ReplaceOneAsync(f=>f.Id == product.Id,product);
+
+        var result = await _context.Product.ReplaceOneAsync(f => f.Id == product.Id, product);
 
         return result.IsAcknowledged && result.UpsertedId > 0;
     }
